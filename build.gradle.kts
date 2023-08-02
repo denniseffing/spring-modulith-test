@@ -43,6 +43,7 @@ dependencies {
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("io.kotest:kotest-assertions-core:5.6.2")
 }
 
 dependencyManagement {
