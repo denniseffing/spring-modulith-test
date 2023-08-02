@@ -1,0 +1,11 @@
+POST http://localhost:8080/habits
+Content-Type: application/json
+
+{
+  "name": "Cooking",
+  "frequency": "DAILY",
+  "repetitions": 3
+}
+
+###
+GET http://localhost:8080/habits
