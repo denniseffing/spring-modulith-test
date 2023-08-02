@@ -15,6 +15,10 @@ class Habit(@Identity val id: Id = Id(UUID.randomUUID()), val name: Name, val sc
 
   override fun hashCode(): Int = id.hashCode()
 
+  override fun toString(): String {
+    return "Habit(id=$id, name=$name, schedule=$schedule)"
+  }
+
   @JvmInline value class Id(val value: UUID) : Identifier
 
   @JvmInline @ValueObject value class Name(val value: String)
