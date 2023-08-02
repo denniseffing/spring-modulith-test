@@ -1,5 +1,6 @@
-package com.example.modulithtest.habits
+package com.example.modulithtest.habits.api.rest
 
+import com.example.modulithtest.habits.Habit
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
