@@ -13,7 +13,7 @@ class Habit(@Identity val id: Id, val name: Name, val schedule: Schedule) :
     AbstractAggregateRoot() {
 
   constructor(name: Name, schedule: Schedule) : this(Id(UUID.randomUUID()), name, schedule) {
-    registerEvent(HabitCreated())
+    registerEvent(HabitCreated(id.value))
   }
 
   override fun equals(other: Any?): Boolean = if (other is Habit) id == other.id else false
@@ -28,7 +28,7 @@ class Habit(@Identity val id: Id, val name: Name, val schedule: Schedule) :
 
   @JvmInline @ValueObject value class Name(val value: String)
 
-  @DomainEvent class HabitCreated
+  @DomainEvent data class HabitCreated(val id: UUID)
 }
 
 @ValueObject

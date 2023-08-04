@@ -5,3 +5,9 @@ CREATE TABLE IF NOT EXISTS habits
     frequency   VARCHAR(50),
     repetitions INTEGER
 );
+
+CREATE TABLE IF NOT EXISTS tracked_habits
+(
+    id      VARCHAR(36),
+    version INTEGER
+);

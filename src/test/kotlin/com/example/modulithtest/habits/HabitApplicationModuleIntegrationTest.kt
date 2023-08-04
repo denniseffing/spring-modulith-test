@@ -1,5 +1,6 @@
 package com.example.modulithtest.habits
 
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.modulith.test.ApplicationModuleTest
@@ -17,6 +18,6 @@ class HabitApplicationModuleIntegrationTest {
     scenario
         .stimulate { -> habitManagement.saveHabit(newHabit).block() }
         .andWaitForEventOfType(Habit.HabitCreated::class.java)
-        .toArrive()
+        .toArriveAndVerify { event -> event.id shouldBe newHabit.id.value }
   }
 }

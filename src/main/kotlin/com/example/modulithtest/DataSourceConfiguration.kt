@@ -1,4 +1,4 @@
-package com.example.modulithtest.habits.data.jdbc
+package com.example.modulithtest
 
 import io.r2dbc.spi.ConnectionFactory
 import javax.sql.DataSource
