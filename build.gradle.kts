@@ -36,6 +36,7 @@ dependencies {
   implementation("org.springframework.modulith:spring-modulith-starter-jdbc")
   runtimeOnly("org.springframework.modulith:spring-modulith-actuator")
   runtimeOnly("org.springframework.modulith:spring-modulith-observability")
+  testRuntimeOnly("org.jmolecules:jmolecules-ddd:1.8.0")
   implementation("org.jmolecules:kmolecules-ddd:1.8.0")
   testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 
