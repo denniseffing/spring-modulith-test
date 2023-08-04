@@ -1,24 +1,21 @@
 package com.example.modulithtest
 
-import io.r2dbc.spi.ConnectionFactory
 import javax.sql.DataSource
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcTransactionManagerAutoConfiguration
 import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
 import org.springframework.context.annotation.Primary
 import org.springframework.core.env.Environment
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
 import org.springframework.jdbc.support.JdbcTransactionManager
+import org.springframework.modulith.events.EventPublication
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.TransactionManager
 import org.springframework.transaction.annotation.Transactional
@@ -28,21 +25,19 @@ import org.springframework.transaction.annotation.Transactional
 class DataSourceConfiguration {
 
   /**
-   * Configures a [DataSource] bean manually, because Spring Boot does not autoconfigure one for us
-   * when a reactive [ConnectionFactory] is already present.
+   * We have to import the [DataSourceAutoConfiguration] because when a [ConnectionFactory] bean is
+   * available, the regular JDBC [DataSource] auto-configuration backs off. Since Spring Modulith
+   * currently doesn't support reactive persistence of [EventPublication]s, we have to re-enable it.
    *
-   * We are using both a blocking [DataSource] and a reactive [ConnectionFactory] because Spring
-   * Modulith currently doesn't support reactive persistence of [EventPublication]s.
-   *
+   * @see <a
+   *   href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#data.sql.r2dbc">Spring
+   *   Boot Reference Documentation</a>
    * @see DataSourceAutoConfiguration
    * @see R2dbcAutoConfiguration
    */
-  @Bean(destroyMethod = "shutdown")
-  fun dataSource(properties: DataSourceProperties): EmbeddedDatabase =
-      EmbeddedDatabaseBuilder()
-          .setType(EmbeddedDatabaseType.H2)
-          .setName(properties.determineDatabaseName())
-          .build()
+  @Configuration
+  @Import(DataSourceAutoConfiguration::class)
+  class ReEnableJdbcDataSourceConfiguration
 
   /**
    * Configures a [PlatformTransactionManager] to set it as [Primary]. This is required because
