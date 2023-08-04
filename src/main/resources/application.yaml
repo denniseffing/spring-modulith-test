@@ -3,4 +3,4 @@ spring:
     events:
       jdbc:
         schema-initialization:
-          enabled: "true"
+          enabled: true

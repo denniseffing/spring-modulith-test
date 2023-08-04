@@ -1,4 +1,4 @@
-package com.example.modulithtest.habits.data
+package com.example.modulithtest.habits.data.jdbc
 
 import io.r2dbc.spi.ConnectionFactory
 import javax.sql.DataSource
@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.core.env.Environment
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
@@ -23,6 +24,7 @@ import org.springframework.transaction.TransactionManager
 import org.springframework.transaction.annotation.Transactional
 
 @Configuration(proxyBeanMethods = false)
+@EnableJdbcRepositories(basePackages = ["org.springframework.modulith.events.jdbc"])
 class DataSourceConfiguration {
 
   /**

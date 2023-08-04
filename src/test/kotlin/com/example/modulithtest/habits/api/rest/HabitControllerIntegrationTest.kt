@@ -1,21 +1,32 @@
+@file:Suppress("ReactiveStreamsUnusedPublisher")
+
 package com.example.modulithtest.habits.api.rest
 
+import com.example.modulithtest.habits.HabitManagement
+import com.example.modulithtest.habits.TestFixtures.JoggingHabit
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.modulith.test.ApplicationModuleTest
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
-@SpringBootTest
-@ApplicationModuleTest
+@WebFluxTest(controllers = [HabitController::class])
 @AutoConfigureWebTestClient
 class HabitControllerIntegrationTest(@Autowired val webTestClient: WebTestClient) {
 
+  @MockkBean private lateinit var habitManagement: HabitManagement
+
   @Test
   fun `should return habits`() {
+    every { habitManagement.findAll() } returns Flux.just(JoggingHabit)
+
     webTestClient
         .get()
         .uri("/habits")
@@ -28,6 +39,8 @@ class HabitControllerIntegrationTest(@Autowired val webTestClient: WebTestClient
 
   @Test
   fun `should create habits`() {
+    every { habitManagement.saveHabit(any()) } returns Mono.just(JoggingHabit)
+
     webTestClient
         .post()
         .uri("/habits")
@@ -35,5 +48,7 @@ class HabitControllerIntegrationTest(@Autowired val webTestClient: WebTestClient
         .exchange()
         .expectStatus()
         .isCreated()
+
+    verify { habitManagement.saveHabit(any()) }
   }
 }

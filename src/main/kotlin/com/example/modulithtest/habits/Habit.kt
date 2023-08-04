@@ -9,10 +9,10 @@ import org.jmolecules.ddd.types.Identifier
 import org.jmolecules.event.annotation.DomainEvent
 
 @AggregateRoot
-class Habit(@Identity val id: Id = Id(UUID.randomUUID()), val name: Name, val schedule: Schedule) :
+class Habit(@Identity val id: Id, val name: Name, val schedule: Schedule) :
     AbstractAggregateRoot() {
 
-  init {
+  constructor(name: Name, schedule: Schedule) : this(Id(UUID.randomUUID()), name, schedule) {
     registerEvent(HabitCreated())
   }
 

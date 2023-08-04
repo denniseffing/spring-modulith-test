@@ -49,6 +49,7 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.boot:spring-boot-testcontainers")
   testImplementation("io.projectreactor:reactor-test")
+  testImplementation("com.ninja-squad:springmockk:4.0.2")
 
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("io.kotest:kotest-assertions-core:5.6.2")
