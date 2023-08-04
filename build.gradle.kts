@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id("org.springframework.boot") version "3.1.2"
+  id("org.springframework.boot") version "3.2.0-M1"
   id("io.spring.dependency-management") version "1.1.2"
   kotlin("jvm") version "1.8.22"
   kotlin("plugin.spring") version "1.8.22"
@@ -11,6 +11,10 @@ group = "com.example"
 
 version = "0.0.1-SNAPSHOT"
 
+extra["spring-framework.version"] = "6.1.0-SNAPSHOT"
+
+extra["spring-data-bom.version"] = "2023.1.0-SNAPSHOT"
+
 java { sourceCompatibility = JavaVersion.VERSION_17 }
 
 configurations { compileOnly { extendsFrom(configurations.annotationProcessor.get()) } }
@@ -18,17 +22,19 @@ configurations { compileOnly { extendsFrom(configurations.annotationProcessor.ge
 repositories {
   mavenCentral()
   maven { url = uri("https://repo.spring.io/milestone") }
+  maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-actuator")
   implementation("org.springframework.boot:spring-boot-starter-validation")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
+  implementation("org.springframework.boot:spring-boot-devtools")
 
   // persistence
   implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
   implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-  runtimeOnly("com.h2database:h2")
+  implementation("com.h2database:h2")
   runtimeOnly("io.r2dbc:r2dbc-h2")
 
   // Spring Modulith & JMolecules
