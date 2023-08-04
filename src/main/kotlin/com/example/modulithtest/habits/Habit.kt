@@ -6,10 +6,15 @@ import org.jmolecules.ddd.annotation.AggregateRoot
 import org.jmolecules.ddd.annotation.Identity
 import org.jmolecules.ddd.annotation.ValueObject
 import org.jmolecules.ddd.types.Identifier
+import org.jmolecules.event.annotation.DomainEvent
 
 @AggregateRoot
 class Habit(@Identity val id: Id = Id(UUID.randomUUID()), val name: Name, val schedule: Schedule) :
     AbstractAggregateRoot() {
+
+  init {
+    registerEvent(HabitCreated())
+  }
 
   override fun equals(other: Any?): Boolean = if (other is Habit) id == other.id else false
 
@@ -22,6 +27,8 @@ class Habit(@Identity val id: Id = Id(UUID.randomUUID()), val name: Name, val sc
   @JvmInline value class Id(val value: UUID) : Identifier
 
   @JvmInline @ValueObject value class Name(val value: String)
+
+  @DomainEvent class HabitCreated
 }
 
 @ValueObject

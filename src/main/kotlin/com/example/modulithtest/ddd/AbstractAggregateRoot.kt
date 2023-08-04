@@ -1,14 +1,16 @@
 package com.example.modulithtest.ddd
 
-import org.jmolecules.event.types.DomainEvent
+import org.springframework.data.domain.AfterDomainEventPublication
+import org.springframework.data.domain.DomainEvents
 
 abstract class AbstractAggregateRoot {
 
-  private val _domainEvents: MutableList<DomainEvent> = mutableListOf()
-  val domainEvents: List<DomainEvent>
-    get() = _domainEvents.toList()
+  private val _domainEvents: MutableList<Any> = mutableListOf()
 
-  fun registerEvent(event: DomainEvent) = _domainEvents.add(event)
+  val domainEvents: List<Any>
+    @DomainEvents get() = _domainEvents.toList()
 
-  fun clearEvents() = _domainEvents.clear()
+  fun registerEvent(event: Any) = _domainEvents.add(event)
+
+  @AfterDomainEventPublication fun clearEvents() = _domainEvents.clear()
 }
